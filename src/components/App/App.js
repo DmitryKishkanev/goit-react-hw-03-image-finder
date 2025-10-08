@@ -4,6 +4,8 @@ import Filter from 'components/Contacts/Filter';
 import ContactList from 'components/Contacts/ContactList';
 import initialContacts from 'contacts.json';
 import Searchbar from 'components/Searchbar';
+import * as API from 'components/Services/api';
+import ImageGallery from 'components/ImageGallery';
 import { Container } from 'components/App/App.styled';
 
 const LS_KEY = 'contact_list';
@@ -14,6 +16,7 @@ class App extends Component {
     filter: '',
 
     image: '',
+    imageResults: [],
   };
 
   componentDidMount = () => {
@@ -27,12 +30,22 @@ class App extends Component {
     }
   };
 
-  componentDidUpdate(_, prevState) {
-    const nextContacts = this.state.contacts;
-    const prevContacts = prevState.contacts;
+  async componentDidUpdate(_, prevState) {
+    // const nextContacts = this.state.contacts;
+    // const prevContacts = prevState.contacts;
 
-    if (nextContacts !== prevContacts) {
-      localStorage.setItem(LS_KEY, JSON.stringify(nextContacts));
+    // if (nextContacts !== prevContacts) {
+    //   localStorage.setItem(LS_KEY, JSON.stringify(nextContacts));
+
+    const prevImage = prevState.image;
+    const nextImage = this.state.image;
+    if (nextImage !== prevImage) {
+      try {
+        const Images = await API.getImages(nextImage);
+        this.setState({ imageResults: Images });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
@@ -72,8 +85,6 @@ class App extends Component {
 
   addImage = newImage => {
     this.setState({ image: newImage });
-
-    console.log(newImage);
   };
 
   render() {
@@ -91,6 +102,7 @@ class App extends Component {
         />
 
         <Searchbar onSubmit={this.addImage} />
+        <ImageGallery images={this.state.imageResults} />
       </Container>
     );
   }

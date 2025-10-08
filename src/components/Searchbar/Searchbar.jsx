@@ -1,8 +1,8 @@
 import { Formik, Form, Field } from 'formik';
 
 const Searchbar = ({ onSubmit }) => {
-  const handleSubmit = (value, { resetForm }) => {
-    onSubmit(value);
+  const handleSubmit = ({ imageName }, { resetForm }) => {
+    onSubmit(imageName);
     resetForm();
   };
 
