@@ -6,6 +6,7 @@ import initialContacts from 'contacts.json';
 import Searchbar from 'components/Searchbar';
 import * as API from 'components/Services/api';
 import ImageGallery from 'components/ImageGallery';
+import Button from 'components/Button';
 import { Container } from 'components/App/App.styled';
 
 const LS_KEY = 'contact_list';
@@ -87,6 +88,8 @@ class App extends Component {
     this.setState({ image: newImage });
   };
 
+  loadMoreImages = () => {};
+
   render() {
     const filteredContacts = this.getFilteredCntacts();
 
@@ -103,6 +106,7 @@ class App extends Component {
 
         <Searchbar onSubmit={this.addImage} />
         <ImageGallery images={this.state.imageResults} />
+        <Button loadMore={this.loadMoreImages} />
       </Container>
     );
   }
