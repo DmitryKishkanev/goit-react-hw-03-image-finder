@@ -7,6 +7,7 @@ import Searchbar from 'components/Searchbar';
 import * as API from 'components/Services/api';
 import ImageGallery from 'components/ImageGallery';
 import Button from 'components/Button';
+import Loader from 'components/Loader';
 import { Container } from 'components/App/App.styled';
 
 const LS_KEY = 'contact_list';
@@ -18,6 +19,8 @@ class App extends Component {
 
     image: '',
     imageResults: [],
+    searchPage: 1,
+    isLoading: false,
   };
 
   componentDidMount = () => {
@@ -42,13 +45,35 @@ class App extends Component {
     const nextImage = this.state.image;
     if (nextImage !== prevImage) {
       try {
-        const Images = await API.getImages(nextImage);
-        this.setState({ imageResults: Images });
+        this.setState({ isLoading: true });
+        const images = await API.getImages(nextImage);
+        this.setState({
+          imageResults: images,
+          searchPage: this.state.searchPage + 1,
+          isLoading: false,
+        });
       } catch (error) {
         console.log(error);
       }
     }
   }
+
+  loadMoreImages = async () => {
+    try {
+      this.setState({ isLoading: true });
+      const moreImages = await API.getImages(
+        this.state.image,
+        this.state.searchPage,
+      );
+      this.setState(state => ({
+        imageResults: [...state.imageResults, ...moreImages],
+        searchPage: this.state.searchPage + 1,
+        isLoading: false,
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   addContact = newContact => {
     const isNamePresent = this.state.contacts.some(
@@ -88,10 +113,9 @@ class App extends Component {
     this.setState({ image: newImage });
   };
 
-  loadMoreImages = () => {};
-
   render() {
     const filteredContacts = this.getFilteredCntacts();
+    const { imageResults, isLoading } = this.state;
 
     return (
       <Container>
@@ -105,8 +129,9 @@ class App extends Component {
         />
 
         <Searchbar onSubmit={this.addImage} />
-        <ImageGallery images={this.state.imageResults} />
-        <Button loadMore={this.loadMoreImages} />
+        {isLoading ? <Loader /> : <ImageGallery images={imageResults} />}
+
+        {imageResults.length > 0 && <Button loadMore={this.loadMoreImages} />}
       </Container>
     );
   }
