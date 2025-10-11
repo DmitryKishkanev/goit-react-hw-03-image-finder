@@ -1,8 +1,13 @@
+import {
+  GalleryItem,
+  GalleryItemImage,
+} from 'components/ImageGalleryItem/ImageGalleryItem.styled';
+
 const ImageGalleryItem = ({ items }) => {
   return items.map((item, index) => (
-    <li className="gallery-item" key={`${item.id}-${index}`}>
-      <img src={item.webformatURL} alt="" />
-    </li>
+    <GalleryItem key={`${item.id}-${index}`}>
+      <GalleryItemImage src={item.webformatURL} alt="" />
+    </GalleryItem>
   ));
 };
 

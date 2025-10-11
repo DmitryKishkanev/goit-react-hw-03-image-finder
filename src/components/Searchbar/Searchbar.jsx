@@ -1,4 +1,11 @@
-import { Formik, Form, Field } from 'formik';
+import { Formik } from 'formik';
+import {
+  SearchbarHeader,
+  SearchForm,
+  SearchFormButton,
+  SearchFormButtonLabel,
+  SearchFormInput,
+} from 'components/Searchbar/Searchbar.styled';
 
 const Searchbar = ({ onSubmit }) => {
   const handleSubmit = ({ imageName }, { resetForm }) => {
@@ -7,14 +14,14 @@ const Searchbar = ({ onSubmit }) => {
   };
 
   return (
-    <header className="searchbar">
+    <SearchbarHeader>
       <Formik initialValues={{ imageName: '' }} onSubmit={handleSubmit}>
-        <Form className="form">
-          <button type="submit" className="button">
-            <span className="button-label">Search</span>
-          </button>
+        <SearchForm>
+          <SearchFormButton type="submit">
+            <SearchFormButtonLabel></SearchFormButtonLabel>
+          </SearchFormButton>
 
-          <Field
+          <SearchFormInput
             className="input"
             name="imageName"
             type="text"
@@ -22,9 +29,9 @@ const Searchbar = ({ onSubmit }) => {
             autoFocus
             placeholder="Search images and photos"
           />
-        </Form>
+        </SearchForm>
       </Formik>
-    </header>
+    </SearchbarHeader>
   );
 };
 
