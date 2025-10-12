@@ -1,10 +1,10 @@
 import ImageGalleryItem from 'components/ImageGalleryItem';
 import { ImageGalleryList } from 'components/ImageGallery/ImageGallery.styled';
 
-const ImageGallery = ({ images }) => {
+const ImageGallery = ({ images, ontoggleModal }) => {
   return (
     <ImageGalleryList>
-      <ImageGalleryItem items={images} />
+      <ImageGalleryItem items={images} ontoggleModal={ontoggleModal} />
     </ImageGalleryList>
   );
 };

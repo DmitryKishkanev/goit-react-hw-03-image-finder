@@ -4,6 +4,7 @@ import * as API from 'components/Services/api';
 import ImageGallery from 'components/ImageGallery';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
+import Modal from 'components/Modal';
 import { Container } from 'components/App/App.styled';
 
 // const LS_KEY = 'contact_list';
@@ -14,12 +15,14 @@ class App extends Component {
     imageResults: [],
     searchPage: 1,
     isLoading: false,
+    showModal: false,
   };
 
   async componentDidUpdate(_, prevState) {
-    const prevImage = prevState.image;
-    const nextImage = this.state.image;
-    if (nextImage !== prevImage) {
+    const prevImage = prevState.image.trim();
+    const nextImage = this.state.image.trim();
+
+    if (nextImage && nextImage !== prevImage) {
       try {
         this.setState({ isLoading: true });
         const images = await API.getImages(nextImage);
@@ -33,6 +36,10 @@ class App extends Component {
       }
     }
   }
+
+  addImage = newImage => {
+    this.setState({ image: newImage });
+  };
 
   loadMoreImages = async () => {
     try {
@@ -51,29 +58,33 @@ class App extends Component {
     }
   };
 
-  scrollToBottom = () => {
-    requestAnimationFrame(() => {
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: 'smooth',
-      });
-    });
-  };
+  // scrollToBottom = () => {
+  //   requestAnimationFrame(() => {
+  //     window.scrollTo({
+  //       top: document.body.scrollHeight,
+  //       behavior: 'smooth',
+  //     });
+  //   });
+  // };
 
-  addImage = newImage => {
-    this.setState({ image: newImage });
+  toggleModal = id => {
+    this.setState(prev => ({
+      showModal: !prev.showModal,
+    }));
   };
 
   render() {
-    const { imageResults, isLoading } = this.state;
+    const { imageResults, isLoading, showModal } = this.state;
 
     return (
       <Container>
         <Searchbar onSubmit={this.addImage} />
-        <ImageGallery images={imageResults} />
+        <ImageGallery images={imageResults} ontoggleModal={this.toggleModal} />
         {isLoading && <Loader />}
 
         {imageResults.length > 0 && <Button loadMore={this.loadMoreImages} />}
+
+        {showModal && <Modal />}
       </Container>
     );
   }

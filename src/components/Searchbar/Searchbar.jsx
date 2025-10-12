@@ -3,9 +3,9 @@ import {
   SearchbarHeader,
   SearchForm,
   SearchFormButton,
-  SearchFormButtonLabel,
   SearchFormInput,
 } from 'components/Searchbar/Searchbar.styled';
+import { ReactComponent as SearchIcon } from '../../assets/search.svg';
 
 const Searchbar = ({ onSubmit }) => {
   const handleSubmit = ({ imageName }, { resetForm }) => {
@@ -18,7 +18,9 @@ const Searchbar = ({ onSubmit }) => {
       <Formik initialValues={{ imageName: '' }} onSubmit={handleSubmit}>
         <SearchForm>
           <SearchFormButton type="submit">
-            <SearchFormButtonLabel></SearchFormButtonLabel>
+            <SearchIcon
+              style={{ width: '35px', height: '35px', fill: 'black' }}
+            />
           </SearchFormButton>
 
           <SearchFormInput

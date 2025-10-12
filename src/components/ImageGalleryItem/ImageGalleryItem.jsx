@@ -3,10 +3,16 @@ import {
   GalleryItemImage,
 } from 'components/ImageGalleryItem/ImageGalleryItem.styled';
 
-const ImageGalleryItem = ({ items }) => {
+const ImageGalleryItem = ({ items, ontoggleModal }) => {
   return items.map((item, index) => (
     <GalleryItem key={`${item.id}-${index}`}>
-      <GalleryItemImage src={item.webformatURL} alt="" />
+      <button
+        type="button"
+        style={{ all: 'unset', cursor: 'pointer' }}
+        onClick={ontoggleModal}
+      >
+        <GalleryItemImage src={item.webformatURL} alt="" />
+      </button>
     </GalleryItem>
   ));
 };
