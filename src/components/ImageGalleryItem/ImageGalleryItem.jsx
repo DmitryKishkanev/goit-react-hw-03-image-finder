@@ -6,12 +6,8 @@ import {
 const ImageGalleryItem = ({ items, ontoggleModal }) => {
   return items.map((item, index) => (
     <GalleryItem key={`${item.id}-${index}`}>
-      <button
-        type="button"
-        style={{ all: 'unset', cursor: 'pointer' }}
-        onClick={ontoggleModal}
-      >
-        <GalleryItemImage src={item.webformatURL} alt="" />
+      <button type="button" onClick={() => ontoggleModal(item)}>
+        <GalleryItemImage src={item.webformatURL} alt={item.tags} />
       </button>
     </GalleryItem>
   ));
