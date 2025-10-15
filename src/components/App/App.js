@@ -91,7 +91,7 @@ class App extends Component {
         {isLoading && <Loader />}
 
         {!isLoading && image && imageResults.length === 0 && (
-          <p>
+          <p style={{ color: 'red' }}>
             Ой, по запросу {this.state.image} ничего не найдено, попробуйте ещё
             раз.
           </p>
