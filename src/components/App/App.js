@@ -92,8 +92,8 @@ class App extends Component {
 
         {!isLoading && image && imageResults.length === 0 && (
           <p>
-            Ой, по запросу {this.state.image} ничего не найдено попробуйте ещё
-            раз
+            Ой, по запросу {this.state.image} ничего не найдено, попробуйте ещё
+            раз.
           </p>
         )}
 
