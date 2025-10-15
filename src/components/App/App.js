@@ -7,8 +7,6 @@ import Loader from 'components/Loader';
 import Modal from 'components/Modal';
 import { Container } from 'components/App/App.styled';
 
-// const LS_KEY = 'contact_list';
-
 class App extends Component {
   state = {
     image: '',
@@ -25,7 +23,7 @@ class App extends Component {
 
     if (nextImage && nextImage !== prevImage) {
       try {
-        this.setState({ isLoading: true });
+        this.setState({ searchPage: 1, isLoading: true });
         const images = await API.getImages(nextImage);
         this.setState(
           {
@@ -82,13 +80,22 @@ class App extends Component {
   };
 
   render() {
-    const { imageResults, isLoading, showModal } = this.state;
+    const { image, imageResults, isLoading, showModal } = this.state;
 
     return (
       <Container>
         <Searchbar onSubmit={this.addImage} />
+
         <ImageGallery images={imageResults} ontoggleModal={this.toggleModal} />
+
         {isLoading && <Loader />}
+
+        {!isLoading && image && imageResults.length === 0 && (
+          <p>
+            Ой, по запросу {this.state.image} ничего не найдено попробуйте ещё
+            раз
+          </p>
+        )}
 
         {imageResults.length > 0 && <Button loadMore={this.loadMoreImages} />}
 

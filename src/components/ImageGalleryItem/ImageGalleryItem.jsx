@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {
   GalleryItem,
   GalleryItemImage,
@@ -11,6 +12,18 @@ const ImageGalleryItem = ({ items, ontoggleModal }) => {
       </button>
     </GalleryItem>
   ));
+};
+
+ImageGalleryItem.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  ontoggleModal: PropTypes.func.isRequired,
 };
 
 export default ImageGalleryItem;

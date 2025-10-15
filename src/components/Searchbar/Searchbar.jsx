@@ -1,11 +1,12 @@
 import { Formik } from 'formik';
+import PropTypes from 'prop-types';
+import { ReactComponent as SearchIcon } from '../../assets/search.svg';
 import {
   SearchbarHeader,
   SearchForm,
   SearchFormButton,
   SearchFormInput,
 } from 'components/Searchbar/Searchbar.styled';
-import { ReactComponent as SearchIcon } from '../../assets/search.svg';
 
 const Searchbar = ({ onSubmit }) => {
   const handleSubmit = ({ imageName }, { resetForm }) => {
@@ -35,6 +36,10 @@ const Searchbar = ({ onSubmit }) => {
       </Formik>
     </SearchbarHeader>
   );
+};
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Searchbar;
