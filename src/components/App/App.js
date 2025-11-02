@@ -23,12 +23,13 @@ class App extends Component {
 
     if (nextImage && nextImage !== prevImage) {
       try {
-        this.setState({ searchPage: 1, isLoading: true });
-        const images = await API.getImages(nextImage);
+        const initialPage = 1;
+        this.setState({ searchPage: initialPage, isLoading: true });
+        const images = await API.getImages(nextImage, initialPage);
         this.setState(
           {
             imageResults: images,
-            searchPage: this.state.searchPage + 1,
+            searchPage: initialPage + 1,
             isLoading: false,
           },
           this.scrollToBottom,
@@ -53,7 +54,7 @@ class App extends Component {
       this.setState(
         state => ({
           imageResults: [...state.imageResults, ...moreImages],
-          searchPage: this.state.searchPage + 1,
+          searchPage: state.searchPage + 1,
           isLoading: false,
         }),
         this.scrollToBottom,
