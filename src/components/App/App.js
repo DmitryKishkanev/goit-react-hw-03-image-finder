@@ -9,7 +9,7 @@ import { Container } from 'components/App/App.styled';
 
 class App extends Component {
   state = {
-    image: '',
+    searchQuery: '',
     imageResults: [],
     searchPage: 1,
     isLoading: false,
@@ -18,8 +18,8 @@ class App extends Component {
   };
 
   async componentDidUpdate(_, prevState) {
-    const prevImage = prevState.image.trim();
-    const nextImage = this.state.image.trim();
+    const prevImage = prevState.searchQuery.trim();
+    const nextImage = this.state.searchQuery.trim();
 
     if (nextImage && nextImage !== prevImage) {
       try {
@@ -40,15 +40,15 @@ class App extends Component {
     }
   }
 
-  addImage = newImage => {
-    this.setState({ image: newImage });
+  addImage = newIQuery => {
+    this.setState({ searchQuery: newIQuery });
   };
 
   loadMoreImages = async () => {
     try {
       this.setState({ isLoading: true });
       const moreImages = await API.getImages(
-        this.state.image,
+        this.state.searchQuery,
         this.state.searchPage,
       );
       this.setState(
@@ -81,7 +81,7 @@ class App extends Component {
   };
 
   render() {
-    const { image, imageResults, isLoading, showModal } = this.state;
+    const { searchQuery, imageResults, isLoading, showModal } = this.state;
 
     return (
       <Container>
@@ -91,7 +91,7 @@ class App extends Component {
 
         {isLoading && <Loader />}
 
-        {!isLoading && image && imageResults.length === 0 && (
+        {!isLoading && searchQuery && imageResults.length === 0 && (
           <p style={{ color: 'red' }}>
             Ой, по запросу {this.state.image} ничего не найдено, попробуйте ещё
             раз.
